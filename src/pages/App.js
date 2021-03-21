@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Switch } from "react-router-dom"
 import routes, { RouteWithSubRoutes } from './Routes'
-import Header from '../containers/components/layout/header'
-import Footer from '../containers/components/layout/footer'
-import Search from '../containers/components/search'
-import Login from '../containers/components/login'
+import Header from '../containers/header'
+import Footer from '../containers/footer'
+import Search from '../containers/search'
+import Login from '../containers/login'
 import { connect } from 'react-redux'
+import '../assets/style/index.css'
 
 function App(props) {
 

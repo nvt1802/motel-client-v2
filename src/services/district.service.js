@@ -1,18 +1,11 @@
 import Axios from "axios"
-import { API_URL } from "../common/Constant"
+// import { API_URL } from "../common/Constant"
+const BASE_URL = 'https://vapi.vnappmob.com'
 
 class DistrictAPI {
-    findAll() {
-        return Axios.get(`${API_URL}/api/district`)
-    }
-
-    findDistrictByProvinceId(provinceId) {
-        return Axios.get(`${API_URL}/api/district/provinceId/${provinceId}`)
-    }
-
-    findDistrictByDistrictId(districtId) {
-        return Axios.get(`${API_URL}/api/district/${districtId}`)
-    }
+  findDistrictByProvinceId(provinceId) {
+    return Axios.get(`${BASE_URL}/api/province/district/${provinceId}`)
+  }
 }
 
 export default new DistrictAPI()

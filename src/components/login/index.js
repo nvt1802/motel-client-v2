@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import '../../assets/style/login-modal.css'
-import { MESSENGER_ERROR } from '../../../common/Constant'
+import { MESSENGER_ERROR } from '../../common/Constant'
 import { Link } from 'react-router-dom'
 
 function Login({ handleSubmit, onSubmit, register, errors, closeFormLogin }) {

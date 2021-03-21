@@ -1,12 +1,13 @@
 import { takeLatest, call, put } from "redux-saga/effects"
 import * as actionTypes from '../actions/actionTypes'
+import Services from '../../services'
 
 export function* watcherDistrictSaga() {
     yield takeLatest(actionTypes.DISTRICT_API_CALL_REQUEST, workerSaga)
 }
 
 function fetchDistrictData(provinceId) {
-    return []
+    return Services.district.findDistrictByProvinceId(provinceId)
 }
 
 export function* workerSaga(action) {

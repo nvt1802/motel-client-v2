@@ -1,5 +1,5 @@
 import React from 'react'
-import FormatNumber from '../../../../common/FormatNumber'
+import FormatNumber from '../../../common/FormatNumber'
 import Criteria from './Criteria'
 
 function SearchAdvance({ setPrice, setAcreage, search, criteria, setListCriteriaId }) {

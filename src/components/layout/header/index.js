@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import '../../../assets/style/layout/header.css'
 import UserLink from '../dropdownLink'
 
-function Header(props) {
+function Header({ authenticate, removeAuthenticate }) {
 
   const handleMouseOver = (e) => {
     document.getElementsByClassName('logo-text')[0].classList.remove('logo-hidden')
@@ -41,8 +41,14 @@ function Header(props) {
                   </div>
                   <div className="classynav">
                     <ul>
-                      {props?.authenticate?.logged && <UserLink account={props?.authenticate?.account} removeAuthenticate={props?.removeAuthenticate}></UserLink>}
-                      {!props?.authenticate?.logged && (<>
+                      {authenticate?.data !== null &&
+                        <UserLink
+                          key={1}
+                          name={authenticate?.data?.name}
+                          userName={authenticate?.data?.userName}
+                          removeAuthenticate={removeAuthenticate}
+                        ></UserLink>}
+                      {authenticate?.data === null && (<>
                         <li>
                           <Link to="/signUp" style={{ fontSize: 'unset' }}>Đăng ký</Link>
                         </li>
@@ -83,8 +89,14 @@ function Header(props) {
                   </div>
                   <div className="classynav">
                     <ul>
-                      {props?.authenticate?.logged && <UserLink account={props?.authenticate?.account} removeAuthenticate={props.removeAuthenticate}></UserLink>}
-                      {!props?.authenticate?.logged && (<>
+                      {authenticate?.data !== null &&
+                        <UserLink
+                          key={2}
+                          name={authenticate?.data?.name}
+                          userName={authenticate?.data?.userName}
+                          removeAuthenticate={removeAuthenticate}
+                        ></UserLink>}
+                      {authenticate?.data === null && (<>
                         <li>
                           <Link to="/signUp" style={{ fontSize: 'unset' }}>Đăng ký</Link>
                         </li>

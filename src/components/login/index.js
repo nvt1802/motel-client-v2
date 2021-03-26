@@ -1,64 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import '../../assets/style/login-modal.css'
 import { MESSENGER_ERROR } from '../../common/Constant'
 import { Link } from 'react-router-dom'
+import { FormControl, InputLabel, Input, InputAdornment, IconButton, FormHelperText } from '@material-ui/core'
+import { Visibility, VisibilityOff } from '@material-ui/icons'
 
-function Login({ handleSubmit, onSubmit, register, errors, closeFormLogin }) {
+function Login({ handleSubmit, onSubmit, register, errors, closeFormLogin, clearErrors }) {
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
-  useEffect(() => {
-    let userElement = document.getElementById('user')
-    let passElement = document.getElementById('pass')
-    userElement.addEventListener('focus', handleFocus)
-    passElement.addEventListener('focus', handleFocus)
-    userElement.addEventListener('focusout', handleFocusOut)
-    passElement.addEventListener('focusout', handleFocusOut)
-  }, [])
+  const handleChange = () => (event) => {
+    setPassword(event.target.value)
+  };
 
-  const handleFocus = (e) => {
-    e.target.style.borderColor = "#888"
-    let listNode = e.target.parentNode.childNodes
-    for (let j = 0; j < listNode.length; j++) {
-      if (listNode[j].tagName === 'LABEL') {
-        listNode[j].style.top = "-30px"
-        listNode[j].style.fontSize = "14px"
-        listNode[j].style.fontStyle = "italic"
-      }
-    }
-    let inputLine
-    if (e.target.name === 'user') {
-      inputLine = document.getElementsByClassName('userInputLine')
-    } else {
-      inputLine = document.getElementsByClassName('passwordInputLine')
-    }
-    for (let i = 0; i < inputLine.length; i++) {
-      inputLine[i].style.width = '50%'
-      inputLine[i].style.transition = '0.5s'
-    }
-  }
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword)
+  };
 
-  const handleFocusOut = (e) => {
-    e.target.style.borderColor = "#ddd"
-    if (e.target.value === '') {
-      let listNode = e.target.parentNode.childNodes
-      for (let j = 0; j < listNode.length; j++) {
-        if (listNode[j].tagName === 'LABEL') {
-          listNode[j].style.top = "10%"
-          listNode[j].style.color = "inherit"
-          listNode[j].style.fontSize = "inherit"
-          listNode[j].style.fontStyle = "normal"
-        }
-      }
-      let inputLine
-      if (e.target.name === 'user') {
-        inputLine = document.getElementsByClassName('userInputLine')
-      } else {
-        inputLine = document.getElementsByClassName('passwordInputLine')
-      }
-      for (let i = 0; i < inputLine.length; i++) {
-        inputLine[i].style.width = '0px'
-      }
-    }
-  }
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault()
+  };
 
   return (
     <>
@@ -74,30 +35,46 @@ function Login({ handleSubmit, onSubmit, register, errors, closeFormLogin }) {
               </div>
               <div className="modal-body">
                 <div className="container-fluid">
-                  <div className="form-group" style={{ position: 'relative' }}>
-                    <label htmlFor="user" id="userInputLabel" className="my-form-label-control">
-                      Tên tài khoản <span style={{ color: 'red' }}>*</span>
-                    </label>
-                    <input ref={register({
-                      required: MESSENGER_ERROR.username_required
-                    })} type="text" id="user" name="user" className="my-form-input-control" autoComplete="off" />
-                    <div className="my-place-bottom-line" />
-                    <div className="my-bottom-line-left userInputLine" />
-                    <div className="my-bottom-line-right userInputLine" />
-                    <div className="pt-2">{errors.user && <span className="visible error-message pl-0" id="error-user" >{errors.user.message}</span>}</div>
-                  </div>
-                  <div className="form-group mt-5" style={{ position: 'relative' }}>
-                    <label htmlFor="pass" id="passwordInputLabel" className="my-form-label-control">
-                      Mật khẩu<span style={{ color: 'red' }}>*</span>
-                    </label>
-                    <input ref={register({
-                      required: MESSENGER_ERROR.password_required
-                    })} type="password" id="pass" name="pass" className="my-form-input-control" />
-                    <div className="my-place-bottom-line" />
-                    <div className="my-bottom-line-left passwordInputLine" />
-                    <div className="my-bottom-line-right passwordInputLine" />
-                    <div className="pt-2">{errors.pass && <span className="visible error-message pl-0" id="error-pass" >{errors.pass.message}</span>}</div>
-                  </div>
+                  <FormControl className="w-100 mb-3">
+                    <InputLabel htmlFor="pass">Tên tài khoản</InputLabel>
+                    <Input
+                      id="user"
+                      name="user"
+                      autoComplete="off"
+                      inputRef={register({
+                        required: MESSENGER_ERROR.password_required
+                      })}
+                      error={errors.user ? true : false}
+                    />
+                    <FormHelperText error={errors.user ? true : false} id="pass" className="font-italic">{errors?.user?.message}</FormHelperText>
+                  </FormControl>
+                  <FormControl className="w-100">
+                    <InputLabel htmlFor="pass">Mật khẩu</InputLabel>
+                    <Input
+                      id="pass"
+                      name="pass"
+                      autoComplete="off"
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={handleChange()}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      inputRef={register({
+                        required: MESSENGER_ERROR.password_required
+                      })}
+                      error={errors.pass ? true : false}
+                    />
+                    <FormHelperText error={errors.pass ? true : false} id="pass" className="font-italic">{errors?.pass?.message}</FormHelperText>
+                  </FormControl>
                 </div>
               </div>
               <div className="modal-footer d-block text-center" style={{ paddingLeft: '30px', paddingRight: '30px' }}>

@@ -3,19 +3,37 @@ import Services from '../../services'
 import { REGEX_DATE, REGEX_PHONE, REGEX_EMAIL } from '../../common/ValidateCommon'
 import '../../assets/style/sign-up.css'
 import { MESSENGER_ERROR } from '../../common/Constant'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
-export default function SignUp({ handleSubmit, onSubmit, register, errors, closeFormLogin, getValues, location }) {
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
+export default function SignUp({
+  handleSubmit,
+  onSubmit,
+  register,
+  errors,
+  showAlert,
+  setShowAlert,
+  severity,
+  messages,
+  getValues,
+  province,
+  district,
+  handleChangeProvince
+}) {
   const renderOptionProvince = () => {
-    var elements = location?.province.map((value, index) => {
-      return <option value={value.provinceId} key={value.provinceId}>{value.provinceName}</option>
+    var elements = province?.data?.map((value) => {
+      return <option value={value.province_id} key={value.province_id}>{value.province_name}</option>
     })
     return elements
   }
 
   const renderOptionDistrict = () => {
-    var elements = location?.district.map((value, index) => {
-      return <option value={value.districtId} key={value.districtId}>{value.districtName}</option>
+    var elements = district?.data?.map((value) => {
+      return <option value={value.district_id} key={value.district_id}>{value.district_name}</option>
     })
     return elements
   }
@@ -86,10 +104,20 @@ export default function SignUp({ handleSubmit, onSubmit, register, errors, close
     document.title = 'SignUp'
   }, [])
 
+  const handleClose = () => {
+    setShowAlert(false)
+  };
+
   return (<>
     <div className="pt-5 pb-5">
       <div className="container my-sign-up-form">
         <div>
+          <Snackbar open={showAlert} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}>
+            <Alert onClose={handleClose} severity={severity}>{messages}</Alert>
+          </Snackbar>
           <div className="alert alert-light text-center text-success font-weight-bold m-0" role="alert">Đăng ký tài khoản</div>
         </div>
         <form action="/SignUp" onSubmit={handleSubmit(async (values) => await onSubmit(values))} method="POST">
@@ -104,7 +132,7 @@ export default function SignUp({ handleSubmit, onSubmit, register, errors, close
               </label>
               <span className="visible error-message">{errors.username && errors.username.message}</span>
             </div>
-            <div className="form-bounded col-sm-12 col-md-6 pl-0">
+            <div className="form-bounded col-sm-12 col-md-6 px-0">
               <input ref={register({
                 required: MESSENGER_ERROR.email_required,
                 pattern: {
@@ -198,7 +226,7 @@ export default function SignUp({ handleSubmit, onSubmit, register, errors, close
               <select ref={register({
                 required: MESSENGER_ERROR.province_required,
                 validate: value => (parseInt(value) === -1 ? false : true) || MESSENGER_ERROR.province_required
-              })} onChange={() => { }}
+              })} onChange={handleChangeProvince}
                 className="form-control cursor" id="provinceSignUp" name="province" style={{ borderColor: 'rgb(221, 221, 221)' }}>
                 <option value={-1}>Tỉnh/Thành phố</option>
                 {renderOptionProvince()}

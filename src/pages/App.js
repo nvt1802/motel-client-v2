@@ -7,12 +7,16 @@ import Search from '../containers/search'
 import Login from '../containers/login'
 import { connect } from 'react-redux'
 import '../assets/style/index.css'
+import { authenticateAction } from '../redux/actions'
+import AuthenServices from '../services/Authentication.Service'
 
-function App(props) {
+function App({ initAuthenticate }) {
 
   useEffect(() => {
-
-  }, [props])
+    if (AuthenServices.getUsername()) {
+      initAuthenticate(AuthenServices.getUsername())
+    }
+  }, [initAuthenticate])
 
   return (
     <Router>
@@ -29,13 +33,8 @@ function App(props) {
   );
 }
 
-const mapStateToProps = state => ({
-  authenticate: state.authenticate,
-  layout: state.layout
-})
-
 const mapDispatchToProps = dispatch => ({
-  // initAuthenticate: (account) => dispatch(authenticate.initAuthenticate(account))
+  initAuthenticate: (username) => dispatch(authenticateAction.initAuthenticate(username))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(null, mapDispatchToProps)(App)

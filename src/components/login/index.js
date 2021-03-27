@@ -6,12 +6,7 @@ import { FormControl, InputLabel, Input, InputAdornment, IconButton, FormHelperT
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 
 function Login({ handleSubmit, onSubmit, register, errors, closeFormLogin, clearErrors }) {
-  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-
-  const handleChange = () => (event) => {
-    setPassword(event.target.value)
-  };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword)
@@ -55,8 +50,6 @@ function Login({ handleSubmit, onSubmit, register, errors, closeFormLogin, clear
                       name="pass"
                       autoComplete="off"
                       type={showPassword ? 'text' : 'password'}
-                      value={password}
-                      onChange={handleChange()}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton

@@ -2,9 +2,6 @@ import React, { useEffect } from 'react'
 import '../../assets/style/search.css'
 import SearchBasic from './searchBasic'
 import SearchAdvance from './searchAdvance'
-// import ProvinceAPI from '../../../api/ProvinceAPI'
-// import DistrictAPI from '../../../api/DistrictAPI'
-// import CriteriaAPI from '../../../api/CriteriaAPI'
 
 export default function Search({ province, fetchDistrict }) {
 
@@ -21,7 +18,7 @@ export default function Search({ province, fetchDistrict }) {
             <div id="accordianId" role="tablist" aria-multiselectable="true">
               <SearchAdvance />
               <center className="mt-3 mb-3">
-                <button className="btn btn-sm my-btn-primary w-100">Tìm kiếm</button>
+                <button className="btn btn-sm my-btn-primary w-100" disabled>Tìm kiếm</button>
               </center>
               <a id="optionAdvance" data-toggle="collapse" data-parent="#accordianId" href="#sectionContentId" style={{ fontWeight: 'normal', fontSize: '12px', float: 'right' }} aria-expanded="true" aria-controls="sectionContentId">
                 { } ∇

@@ -41,7 +41,7 @@ function Login({ handleSubmit, onSubmit, register, errors, closeFormLogin, clear
                       })}
                       error={errors.user ? true : false}
                     />
-                    <FormHelperText error={errors.user ? true : false} id="pass" className="font-italic">{errors?.user?.message}</FormHelperText>
+                    <FormHelperText error={errors.user ? true : false} id="user" className="font-italic">{errors?.user?.message}</FormHelperText>
                   </FormControl>
                   <FormControl className="w-100">
                     <InputLabel htmlFor="pass">Mật khẩu</InputLabel>

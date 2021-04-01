@@ -14,7 +14,7 @@ function LoginContainer({ fetchAccountData }) {
 		AuthService.executeJwtAuthenticateService(values.user, values.pass)
 			.then((res) => {
 				AuthService.createJwtAuthToken(res.data.token)
-				AuthService.registerSuccessFullLogin(values.user, values.pass, res.data.token)
+				AuthService.registerSuccessFullLogin(values.user, res.data.token)
 				closeFormLogin()
 				Services.account.findAccountByUserName(AuthService.getUsername()).then(res => {
 					fetchAccountData(AuthService.getUsername())
